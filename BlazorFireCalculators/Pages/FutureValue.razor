@@ -1,0 +1,158 @@
+﻿@page "/futurevalue"
+@using BlazorFireCalculators.Data
+@inherits FVCalculation
+
+<h2>Future Value Calculator</h2>
+<p>Discover the power of compound interest.</p>
+
+<div class="calc-container">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="text-right">Current Portfolio Balance:</td>
+                <td>
+                    <!--Update when bind:format supports currency formats -->
+                    <input @bind="Data.InitialValueString" @oninput="@(e => OnInput(e, x => Data.InitialValue = x))"
+                           @onfocusin="@(e => OnFocusIn(Data.InitialValue, Data.InitialValueString, y => Data.InitialValueString = y))"
+                           @onfocusout="@(e => OnFocusOut(Format.Currency, Data.InitialValue, y => Data.InitialValueString = y))" />
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Monthly Contribution:</td>
+                <td>
+                    <input @bind="Data.MonthlyContributionString" @oninput="@(e => OnInput(e, x => Data.MonthlyContribution = x))"
+                           @onfocusin="@(e => OnFocusIn(Data.MonthlyContribution, Data.MonthlyContributionString, y => Data.MonthlyContributionString = y))"
+                           @onfocusout="@(e => OnFocusOut(Format.Currency, Data.MonthlyContribution, y => Data.MonthlyContributionString = y))" />
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Number of Years:</td>
+                <td>
+                    <input @bind="Data.NumYearsString" @oninput="@(e => OnInput(e, x => Data.NumYears = x))"
+                           @onfocusout="@(e => OnFocusOut(Format.None, Data.NumYears, y => Data.NumYearsString = y))" />
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Annual Return (%):</td>
+                <td>
+                    <input @bind="Data.AnnualInterestString" @oninput="@(e => OnInput(e, x => Data.AnnualInterest = x))"
+                           @onfocusin="@(e => OnFocusIn(Data.AnnualInterest, Data.AnnualInterestString, y => Data.AnnualInterestString = y))"
+                           @onfocusout="@(e => OnFocusOut(Format.Percent, Data.AnnualInterest, y => Data.AnnualInterestString = y))" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-right">
+                    <button @onclick="ResetAll" class="btn btn-secondary">Reset</button>
+                </td>
+            </tr>
+            <tr style="background-color:lightblue;">
+                <td class="text-right">Future Value:</td>
+                <td><input readonly @bind="Data.FutureValueString" />&nbsp;&nbsp;</td>
+            </tr>
+            <tr style="background-color:lightgrey;">
+                <td class="text-right">Your Contributions:</td>
+                <td><input readonly @bind="Data.TotalContributionsString" />&nbsp;&nbsp;</td>
+            </tr>
+            <tr style="background-color:lightgrey;">
+                <td class="text-right">Interest Earnings:</td>
+                <td><input readonly @bind="Data.InterestEarningsString" />&nbsp;&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <p>
+            Note: This calculator uses the most conservative method for calculating future value.
+            It assumes interest payouts are made at the beginning of each year
+            and annual contributions are made at the end of each year.
+        </p>
+    </div>
+</div>
+
+@code {
+
+    FVCalculation Data = new FVCalculation();
+
+    //Hopefully the following event handlers will not be necessary
+    //  once Blazor bind:format supports currency and number formatting.
+    //  Monitor this issue for updates: https://github.com/aspnet/AspNetCore/issues/5523
+
+    // The OnInput handler receives a delegate for the property to modify
+    //      It validates the data and updates the FVCalculation object
+    // The OnFocusIn handler clear currency and percentage formatting
+    //      Issue: When custom OnFocusIn handler is set, contents of <input> field are not highlighted when field gains focus
+    // The OnFocusOut handlers format string for currency, percentage
+
+    private void OnInput(ChangeEventArgs e, Action<double> setProperty)
+    {
+        //setProperty delegate will assign double value to the property passed from <input>
+        try
+        {
+            setProperty(Double.Parse(e.Value.ToString()));
+        }
+        catch (Exception ex)
+        {
+            setProperty(0);
+        }
+        UpdateAll();
+    }
+
+    private void OnFocusIn(double propValue, string stringValue, Action<string> setString)
+    {
+        //propValue contains the value of the property passed from <input>
+        //stringValue contains the value of the corresponding string passed from <input>
+        //setString delegate will assign value to the property passed from <input>
+        if (!string.IsNullOrEmpty(stringValue))
+            setString(String.Format("{0:0.##}", propValue));
+    }
+
+    private void OnFocusOut(Format format, double propValue, Action<string> setString)
+    {
+        //propValue contains the value of the property passed from <input>
+        //setString delegate will assign value to the property passed from <input>
+        switch (format)
+        {
+            case (Format.Currency):
+                //Used for formatting currencies
+                setString(String.Format("{0:C0}", propValue));
+                break;
+            case (Format.Percent):
+                //Used for formatting percentages
+                setString(String.Format("{0}%", propValue));
+                break;
+            case (Format.None):
+                // This is used for vars that need no formatting.
+                // Why not just bind to number directly?
+                //    Because binding to string allows empty string on load and on reset click
+                setString(propValue.ToString());
+                break;
+        }
+    }
+
+    //This method is called with each oninput event
+    //  Why? Because this is a client-side and I don't have to worry about my server resources ^_^
+    //  I could do this with an event handler and custom setter for each property,
+    //      but I didn't feel like having a bunch of duplicated code
+    private void UpdateAll()
+    {
+        Data.CalculateFutureValue();
+        SetStrings();
+
+    }
+
+    //Update the bound strings.  This will display the results
+    private void SetStrings()
+    {
+        if (!double.IsNaN(Data.FutureValue))
+        {
+            Data.FutureValueString = String.Format("{0:C}", Data.FutureValue);
+            Data.TotalContributionsString = String.Format("{0:C}", Data.TotalContributions);
+            Data.InterestEarningsString = String.Format("{0:C}", Data.InterestEarnings);
+        }
+    }
+
+    private void ResetAll()
+    {
+        Data = new FVCalculation();
+    }
+}

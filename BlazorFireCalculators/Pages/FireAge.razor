@@ -1,0 +1,156 @@
+﻿@page "/fireage"
+@using BlazorFireCalculators.Data
+@inherits FireAgeCalculation
+
+<h2>FIRE Age Calculator</h2>
+<p>When will you be able to retire?</p>
+
+<div class="calc-container">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="text-right">Current Age:</td>
+                <td>
+                    <!--Update when bind:format supports currency formats-->
+                    <input @bind="Data.CurrentAgeString" @oninput="@(e => OnInput(e, x => Data.CurrentAge = x))"
+                           @onfocusout="@(e => OnFocusOut(Format.None, Data.CurrentAge, y => Data.CurrentAgeString = y))" />
+                </td> 
+            </tr>
+            <tr>
+                <td class="text-right">Current Portfolio Balance:</td>
+                <td><input @bind="Data.CurrentBalanceString" @oninput="@(e => OnInput(e, x => Data.CurrentBalance = x))"
+                           @onfocusin="@(e => OnFocusIn(Data.CurrentBalance, Data.CurrentBalanceString, y => Data.CurrentBalanceString = y))"
+                           @onfocusout="@(e => OnFocusOut(Format.Currency, Data.CurrentBalance, y => Data.CurrentBalanceString = y))" /></td>
+            </tr>
+            <tr>
+                <td class="text-right">Annual Contribution:</td>
+                <td><input @bind="Data.AnnualContributionString" @oninput="@(e => OnInput(e, x => Data.AnnualContribution = x))"
+                           @onfocusin="@(e => OnFocusIn(Data.AnnualContribution, Data.AnnualContributionString, y => Data.AnnualContributionString = y))"
+                           @onfocusout="@(e => OnFocusOut(Format.Currency, Data.AnnualContribution, y => Data.AnnualContributionString = y))" /></td>
+            </tr>
+            <tr>
+                <td class="text-right">Annual Return (%):</td>
+                <td><input @bind="Data.ExpectedReturnString" @oninput="@(e => OnInput(e, x => Data.ExpectedReturn = x))"
+                           @onfocusin="@(e => OnFocusIn(Data.ExpectedReturn, Data.ExpectedReturnString, y => Data.ExpectedReturnString = y))"
+                           @onfocusout="@(e => OnFocusOut(Format.Percent, Data.ExpectedReturn, y => Data.ExpectedReturnString = y))" /></td>
+            </tr>
+            <tr>
+                <td class="text-right">Retirement Expenses:</td>
+                <td><input @bind="Data.RetirementExpensesString" @oninput="@(e => OnInput(e, x => Data.RetirementExpenses = x))"
+                           @onfocusin="@(e => OnFocusIn(Data.RetirementExpenses, Data.RetirementExpensesString, y => Data.RetirementExpensesString = y))"
+                           @onfocusout="@(e => OnFocusOut(Format.Currency, Data.RetirementExpenses, y => Data.RetirementExpensesString = y))" /></td>
+            </tr>
+            <tr>
+                <td class="text-right">Withdrawal Rate (%):</td>
+                <td><input @bind="Data.WithdrawalRateString" @oninput="@(e => OnInput(e, x => Data.WithdrawalRate = x))"
+                           @onfocusin="@(e => OnFocusIn(Data.WithdrawalRate, Data.WithdrawalRateString, y => Data.WithdrawalRateString = y))"
+                           @onfocusout="@(e => OnFocusOut(Format.Percent, Data.WithdrawalRate, y => Data.WithdrawalRateString = y))" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-right">
+                    <button @onclick="ResetAll" class="btn btn-secondary">Reset</button>
+                </td>
+            </tr>
+            <tr style="background-color:lightblue;">
+                <td class="text-right">FIRE Age:</td>
+                <td><input readonly @bind="Data.FireAgeString" />&nbsp;&nbsp;</td>
+            </tr>
+            <tr style="background-color:lightgrey;">
+                <td class="text-right">Fire Balance:</td>
+                <td><input readonly @bind="Data.FireBalanceString" />&nbsp;&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <p>
+        </p>
+    </div>
+</div>
+@code {
+    FireAgeCalculation Data = new FireAgeCalculation();
+
+    //Hopefully the following event handlers will not be necessary
+    //  once Blazor bind:format supports currency and number formatting.
+    //  Monitor this issue for updates: https://github.com/aspnet/AspNetCore/issues/5523
+
+    // The OnInput handler receives a delegate for the property to modify
+    //      It validates the data and updates the FVCalculation object
+    // The OnFocusIn handler clear currency and percentage formatting
+    //      Issue: When custom OnFocusIn handler is set, contents of <input> field are not highlighted when field gains focus
+    // The OnFocusOut handlers format string for currency, percentage
+
+    private void OnInput(ChangeEventArgs e, Action<double> setProperty)
+    {
+        //setProperty delegate will assign double value to the property passed from <input> 
+        try
+        {
+            setProperty(Double.Parse(e.Value.ToString()));
+        }
+        catch (Exception ex)
+        {
+            setProperty(0);
+        }
+        UpdateAll();
+    }
+
+    private void OnFocusIn(double propValue, string stringValue, Action<string> setString)
+    {
+        //propValue contains the value of the property passed from <input>
+        //stringValue contains the value of the corresponding string passed from <input>
+        //setString delegate will assign value to the property passed from <input> 
+
+        if (!string.IsNullOrEmpty(stringValue))
+            setString(String.Format("{0:0.##}", propValue));
+    }
+
+    
+    private void OnFocusOut(Format format, double propValue, Action<string> setString)
+    {
+        //propValue contains the value of the property passed from <input>
+        //setString delegate will assign value to the property passed from <input> 
+        switch (format)
+        {
+            case (Format.Currency):
+                //Used for formatting currencies
+                setString(String.Format("{0:C0}", propValue));
+                break;
+            case (Format.Percent):
+                //Used for formatting percentages
+                setString(String.Format("{0}%", propValue));
+                break;
+            case (Format.None):
+                // This is used for vars that need no formatting.
+                // Why not just bind to number directly?
+                //    Because binding to string allows empty string on load and on reset click 
+                setString(propValue.ToString());
+                break;
+        }        
+    }
+
+    //This method is called with each oninput event
+    //  Why? Because this is a client-side and I don't have to worry about my server resources ^_^
+    //  I could do this with an event handler and custom setter for each property,
+    //      but I didn't feel like having a bunch of duplicated code
+    private void UpdateAll()
+    {
+        Data.CalculateFireAge();
+        SetStrings();
+
+    }
+
+    //Update the bound strings.  This will display the results
+    private void SetStrings()
+    {
+       if (!double.IsNaN(Data.FireAge) && !double.IsInfinity(Data.FireAge))
+       {
+           Data.FireAgeString = String.Format("{0:0.##}", Data.FireAge);
+           Data.FireBalanceString = String.Format("{0:C0}", Data.FireBalance);
+       }
+    }
+
+    private void ResetAll()
+    {
+        Data = new FireAgeCalculation();
+    }
+}
