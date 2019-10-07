@@ -63,4 +63,4 @@
 #*.RTF   diff=astextplain
 
 # Ignore files in publish directory
-publish/* linguist-vendored
+publish/BlazorFireCalculators/dist/* linguist-vendored
