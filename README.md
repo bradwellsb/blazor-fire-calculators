@@ -1,9 +1,12 @@
 # Blazor FIRE Calculators
 These FIRE calculators were created by [Bradley Wells](https://wellsb.com/) using Blazor, a .NET technology that allows you to build dynamic web applications using C# instead of JavaScript.
 
-## Which calculators are included?
-- **Future Value Calculator** - Estimate how much your investments will grow with annual compounding interest and monthly contributions.
-- **Fire Age Calculator** - Estimate when you will be able to retire based on your current portfolio balance, annual savings, and expected retirement expenses.
+## Is there a demo?
+**Yes!** You can try out the client-side Blazor Fire Calculators at [https://fire.wellsb.com/](https://fire.wellsb.com/).  This is a Blazor WebAssembly app, so all processing is done using client resources.  Feedback is welcome!
+
+### Which calculators are included?
+- **[Future Value Calculator](https://fire.wellsb.com/futurevalue)** - Estimate how much your investments will grow with annual compounding interest and monthly contributions.
+- **[Fire Age Calculator](https://fire.wellsb.com/fireage)** - Estimate when you will be able to retire based on your current portfolio balance, annual savings, and expected retirement expenses.
 
 ## What is FIRE?
 **FIRE** stands for **F**inancial **I**ndependence, **R**etire **E**arly.  Financial independence means you no longer have to work for a living.  When you have enough income (from investments, real estate, passive business, etc) to pay for your living expenses for the rest of your life, you are financially independent.
