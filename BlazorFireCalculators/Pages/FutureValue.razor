@@ -6,60 +6,94 @@
 <p>Discover the power of compound interest.</p>
 
 <div class="calc-container">
-    <table class="table">
-        <tbody>
-            <tr>
-                <td class="text-right">Current Portfolio Balance:</td>
-                <td>
+    <div class="form-group row">
+        <label for="initialvalue" class="col-sm-8 col-form-label">Current Portfolio Balance:</label>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
                     <!--Update when bind:format supports currency formats -->
-                    <input @bind="Data.InitialValueString" @oninput="@(e => OnInput(e, x => Data.InitialValue = x))"
+                    <input id="initialvalue" class="form-control input-lg" @bind-value="Data.InitialValueString" @oninput="@(e => OnInput(e, x => Data.InitialValue = x))"
                            @onfocusin="@(e => OnFocusIn(Data.InitialValue, Data.InitialValueString, y => Data.InitialValueString = y))"
                            @onfocusout="@(e => OnFocusOut(Format.Currency, Data.InitialValue, y => Data.InitialValueString = y))" />
-                </td>
-            </tr>
-            <tr>
-                <td class="text-right">Monthly Contribution:</td>
-                <td>
-                    <input @bind="Data.MonthlyContributionString" @oninput="@(e => OnInput(e, x => Data.MonthlyContribution = x))"
-                           @onfocusin="@(e => OnFocusIn(Data.MonthlyContribution, Data.MonthlyContributionString, y => Data.MonthlyContributionString = y))"
-                           @onfocusout="@(e => OnFocusOut(Format.Currency, Data.MonthlyContribution, y => Data.MonthlyContributionString = y))" />
-                </td>
-            </tr>
-            <tr>
-                <td class="text-right">Number of Years:</td>
-                <td>
-                    <input @bind="Data.NumYearsString" @oninput="@(e => OnInput(e, x => Data.NumYears = x))"
-                           @onfocusout="@(e => OnFocusOut(Format.None, Data.NumYears, y => Data.NumYearsString = y))" />
-                </td>
-            </tr>
-            <tr>
-                <td class="text-right">Annual Return (%):</td>
-                <td>
-                    <input @bind="Data.AnnualInterestString" @oninput="@(e => OnInput(e, x => Data.AnnualInterest = x))"
-                           @onfocusin="@(e => OnFocusIn(Data.AnnualInterest, Data.AnnualInterestString, y => Data.AnnualInterestString = y))"
-                           @onfocusout="@(e => OnFocusOut(Format.Percent, Data.AnnualInterest, y => Data.AnnualInterestString = y))" />
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td class="text-right">
-                    <button @onclick="ResetAll" class="btn btn-secondary">Reset</button>
-                </td>
-            </tr>
-            <tr style="background-color:lightblue;">
-                <td class="text-right">Future Value:</td>
-                <td><input readonly @bind="Data.FutureValueString" />&nbsp;&nbsp;</td>
-            </tr>
-            <tr style="background-color:lightgrey;">
-                <td class="text-right">Your Contributions:</td>
-                <td><input readonly @bind="Data.TotalContributionsString" />&nbsp;&nbsp;</td>
-            </tr>
-            <tr style="background-color:lightgrey;">
-                <td class="text-right">Interest Earnings:</td>
-                <td><input readonly @bind="Data.InterestEarningsString" />&nbsp;&nbsp;</td>
-            </tr>
-        </tbody>
-    </table>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="monthlycontribution" class="col-sm-8 col-form-label">Monthly Contribution:</label>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input id="monthlycontribution" class="form-control input-lg" @bind="Data.MonthlyContributionString" @oninput="@(e => OnInput(e, x => Data.MonthlyContribution = x))"
+                       @onfocusin="@(e => OnFocusIn(Data.MonthlyContribution, Data.MonthlyContributionString, y => Data.MonthlyContributionString = y))"
+                       @onfocusout="@(e => OnFocusOut(Format.Currency, Data.MonthlyContribution, y => Data.MonthlyContributionString = y))" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="numyears" class="col-sm-8 col-form-label">Number of Years:</label>
+        <div class="col-sm-4">
+            <input id="numyears" class="form-control input-lg" @bind="Data.NumYearsString" @oninput="@(e => OnInput(e, x => Data.NumYears = x))"
+                               @onfocusout="@(e => OnFocusOut(Format.None, Data.NumYears, y => Data.NumYearsString = y))" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="annualreturn" class="col-sm-8 col-form-label">Annual Return:</label>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <input id="annualreturn" class="form-control input-lg" @bind="Data.AnnualInterestString" @oninput="@(e => OnInput(e, x => Data.AnnualInterest = x))"
+                       @onfocusin="@(e => OnFocusIn(Data.AnnualInterest, Data.AnnualInterestString, y => Data.AnnualInterestString = y))"
+                       @onfocusout="@(e => OnFocusOut(Format.Percent, Data.AnnualInterest, y => Data.AnnualInterestString = y))" />
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-8"></div>
+        <div class="col-sm-4 text-right">
+            <button @onclick="ResetAll" class="btn btn-secondary">Reset</button>
+        </div>
+    </div>
+
+    <div class="form-group row highlight-color">
+        <label for="futurevalue" class="col-sm-8 col-form-label">Future Value:</label>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input id="futurevalue" class="form-control input-lg" readonly @bind="Data.FutureValueString" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row highlight-grey">
+        <label for="totalcontributions" class="col-sm-8 col-form-label">Your Contributions:</label>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input id="totalcontributions" class="form-control input-lg" readonly @bind="Data.TotalContributionsString" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row highlight-grey">
+        <label for="interestearnings" class="col-sm-8 col-form-label">Interest Earnings:</label>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input id="interestearnings" class="form-control input-lg" readonly @bind="Data.InterestEarningsString" />
+            </div>
+        </div>
+    </div>
     <div>
         <p>
             Note: This calculator uses the most conservative method for calculating future value.
@@ -81,14 +115,14 @@
     //      It validates the data and updates the FVCalculation object
     // The OnFocusIn handler clear currency and percentage formatting
     //      Issue: When custom OnFocusIn handler is set, contents of <input> field are not highlighted when field gains focus
-    // The OnFocusOut handlers format string for currency, percentage
+    // The OnFocusOut handler formats string for currency, percentage
 
     private void OnInput(ChangeEventArgs e, Action<double> setProperty)
     {
         //setProperty delegate will assign double value to the property passed from <input>
         try
         {
-            setProperty(Double.Parse(e.Value.ToString()));
+            setProperty(Math.Round(Double.Parse(e.Value.ToString()),2));
         }
         catch (Exception ex)
         {
@@ -114,11 +148,13 @@
         {
             case (Format.Currency):
                 //Used for formatting currencies
-                setString(String.Format("{0:C0}", propValue));
+                setString(String.Format("{0:N0}", propValue));
                 break;
             case (Format.Percent):
                 //Used for formatting percentages
-                setString(String.Format("{0}%", propValue));
+                    //Not really necessary anymore since we're adding % to inputgroup with bootstrap
+                    //setString(String.Format("{0:N}%", propValue));
+                setString(String.Format("{0:N2}", propValue));
                 break;
             case (Format.None):
                 // This is used for vars that need no formatting.

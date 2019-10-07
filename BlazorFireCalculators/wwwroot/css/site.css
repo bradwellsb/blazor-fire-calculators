@@ -83,6 +83,16 @@ app {
     max-width: 600px;
 }
 
+    .calc-container .highlight-color {
+        background-color: #cadfe0;
+        padding: .75em;
+    }
+
+    .calc-container .highlight-grey {
+        background-color: #ddd;
+        padding: .75em;
+    }
+
 .home-container {
     max-width: 800px;
 }
@@ -124,6 +134,7 @@ app {
     .main .top-row {
         position: sticky;
         top: 0;
+        z-index: 99;
     }
 
     .main .top-row h1 {
