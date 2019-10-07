@@ -66,4 +66,4 @@
 publish/* linguist-vendored
 
 # ID .razor files as C#
-*.razor linguist-language=csharp
+*.razor linguist-language=C#
