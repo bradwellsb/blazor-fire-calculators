@@ -57,7 +57,6 @@ const requiredFiles = [
 "/icon-fire192.png",
 "/icon-fire512.png",
 "/index.html",
-"/_redirects",
 "/ServiceWorkerRegister.js",
 "/manifest.json"
 ];
