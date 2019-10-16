@@ -1,4 +1,5 @@
 ﻿@page "/futurevalue"
+@using System.Globalization
 @using BlazorFireCalculators.Data
 @inherits FVCalculation
 
@@ -11,12 +12,12 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
-                    <!--Update when bind:format supports currency formats -->
-                    <input id="initialvalue" class="form-control input-lg" @bind-value="Data.InitialValueString" @oninput="@(e => OnInput(e, x => Data.InitialValue = x))"
-                           @onfocusin="@(e => OnFocusIn(Data.InitialValue, Data.InitialValueString, y => Data.InitialValueString = y))"
-                           @onfocusout="@(e => OnFocusOut(Format.Currency, Data.InitialValue, y => Data.InitialValueString = y))" />
+                <!--Update when bind:format supports currency formats -->
+                <input id="initialvalue" class="form-control input-lg" @bind-value="Data.InitialValueString" @oninput="@(e => OnInput(e, x => Data.InitialValue = x))"
+                       @onfocusin="@(e => OnFocusIn(Data.InitialValue, Data.InitialValueString, y => Data.InitialValueString = y))"
+                       @onfocusout="@(e => OnFocusOut(Format.Currency, Data.InitialValue, y => Data.InitialValueString = y))" />
             </div>
         </div>
     </div>
@@ -25,7 +26,7 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
                 <input id="monthlycontribution" class="form-control input-lg" @bind="Data.MonthlyContributionString" @oninput="@(e => OnInput(e, x => Data.MonthlyContribution = x))"
                        @onfocusin="@(e => OnFocusIn(Data.MonthlyContribution, Data.MonthlyContributionString, y => Data.MonthlyContributionString = y))"
@@ -37,7 +38,7 @@
         <label for="numyears" class="col-sm-8 col-form-label">Number of Years:</label>
         <div class="col-sm-4">
             <input id="numyears" class="form-control input-lg" @bind="Data.NumYearsString" @oninput="@(e => OnInput(e, x => Data.NumYears = x))"
-                               @onfocusout="@(e => OnFocusOut(Format.None, Data.NumYears, y => Data.NumYearsString = y))" />
+                   @onfocusout="@(e => OnFocusOut(Format.None, Data.NumYears, y => Data.NumYearsString = y))" />
         </div>
     </div>
     <div class="form-group row">
@@ -66,7 +67,7 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
                 <input id="futurevalue" class="form-control input-lg" readonly @bind="Data.FutureValueString" />
             </div>
@@ -77,7 +78,7 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
                 <input id="totalcontributions" class="form-control input-lg" readonly @bind="Data.TotalContributionsString" />
             </div>
@@ -88,7 +89,7 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
                 <input id="interestearnings" class="form-control input-lg" readonly @bind="Data.InterestEarningsString" />
             </div>
@@ -181,9 +182,9 @@
     {
         if (!double.IsNaN(Data.FutureValue))
         {
-            Data.FutureValueString = String.Format("{0:C}", Data.FutureValue);
-            Data.TotalContributionsString = String.Format("{0:C}", Data.TotalContributions);
-            Data.InterestEarningsString = String.Format("{0:C}", Data.InterestEarnings);
+            Data.FutureValueString = String.Format("{0:N2}", Data.FutureValue);
+            Data.TotalContributionsString = String.Format("{0:N2}", Data.TotalContributions);
+            Data.InterestEarningsString = String.Format("{0:N2}", Data.InterestEarnings);
         }
     }
 

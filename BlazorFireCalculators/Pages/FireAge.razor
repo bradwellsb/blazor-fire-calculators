@@ -1,4 +1,5 @@
 ﻿@page "/fireage"
+@using System.Globalization
 @using BlazorFireCalculators.Data
 @inherits FireAgeCalculation
 
@@ -20,7 +21,7 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
                 <input id="currentbalance" class="form-control input-lg" @bind="Data.CurrentBalanceString" @oninput="@(e => OnInput(e, x => Data.CurrentBalance = x))"
                        @onfocusin="@(e => OnFocusIn(Data.CurrentBalance, Data.CurrentBalanceString, y => Data.CurrentBalanceString = y))"
@@ -33,7 +34,7 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
                 <input id="annualcontribution" class="form-control input-lg" @bind="Data.AnnualContributionString" @oninput="@(e => OnInput(e, x => Data.AnnualContribution = x))"
                        @onfocusin="@(e => OnFocusIn(Data.AnnualContribution, Data.AnnualContributionString, y => Data.AnnualContributionString = y))"
@@ -59,7 +60,7 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
                 <input id="retirementexpenses" class="form-control input-lg" @bind="Data.RetirementExpensesString" @oninput="@(e => OnInput(e, x => Data.RetirementExpenses = x))"
                        @onfocusin="@(e => OnFocusIn(Data.RetirementExpenses, Data.RetirementExpensesString, y => Data.RetirementExpensesString = y))"
@@ -99,7 +100,7 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
                 <input id="firebalance" class="form-control input-lg" readonly @bind="Data.FireBalanceString" />
             </div>
@@ -142,7 +143,7 @@
             setString(String.Format("{0:0.##}", propValue));
     }
 
-    
+
     private void OnFocusOut(Format format, double propValue, Action<string> setString)
     {
         //propValue contains the value of the property passed from <input>
@@ -185,7 +186,7 @@
        if (!double.IsNaN(Data.FireAge) && !double.IsInfinity(Data.FireAge))
        {
            Data.FireAgeString = String.Format("{0:0.##}", Data.FireAge);
-           Data.FireBalanceString = String.Format("{0:C0}", Data.FireBalance);
+           Data.FireBalanceString = String.Format("{0:N2}", Data.FireBalance);
        }
     }
 

@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <ServiceWorkerCacheVersion>1</ServiceWorkerCacheVersion>
+    <ServiceWorkerCacheVersion>2</ServiceWorkerCacheVersion>
     <ServiceWorkerForce>true</ServiceWorkerForce>
     <ServiceWorkerRegisterInstallableType>installable-blazor</ServiceWorkerRegisterInstallableType>
     
