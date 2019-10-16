@@ -26,5 +26,10 @@
     <ManifestShortName>FIRE Calculator</ManifestShortName>
     <ManifestLongName>Blazor FIRE Calculator</ManifestLongName>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   
 </Project>
