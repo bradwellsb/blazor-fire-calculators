@@ -82,12 +82,13 @@ app {
 .install-prompt {
     background-color: #54595f;
     color: #fff;
-    position:fixed;
-    bottom:0.5rem;
-    padding:0.5rem;
-    display:flex;
-    font-size:1.5rem;
-    border-radius:.25rem;
+    position: fixed;
+    bottom: 0.5rem;
+    padding: 0.5rem;
+    display: flex;
+    font-size: 1.5rem;
+    border-radius: .25rem;
+    z-index: 99;
 }
     .install-prompt .installButton {
         margin-left: auto;
