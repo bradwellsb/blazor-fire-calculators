@@ -79,6 +79,26 @@ app {
     padding-top: 1.1rem;
 }
 
+.install-prompt {
+    background-color: #54595f;
+    color: #fff;
+    position:fixed;
+    bottom:0.5rem;
+    padding:0.5rem;
+    display:flex;
+    font-size:1.5rem;
+    border-radius:.25rem;
+}
+    .install-prompt .installButton {
+        margin-left: auto;
+        width: 4em;
+    }
+
+    .install-prompt .cancelButton {
+        margin-left: 0.3rem;
+        width: 4em;
+    }
+
 .calc-container {
     max-width: 600px;
 }

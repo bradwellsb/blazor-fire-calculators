@@ -1,0 +1,18 @@
+{
+  "short_name": "FIRE Calculator",
+  "name": "Blazor FIRE Calculator",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src":"/icon-fire192.png",
+      "type":"image/png",
+      "sizes":"192x192"
+    },
+    {
+      "src":"/icon-fire512.png",
+      "type":"image/png",
+      "sizes":"512x512"
+    }
+  ]
+}

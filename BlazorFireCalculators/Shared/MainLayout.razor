@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-
+@inject  IJSRuntime JSRuntime
 <div class="sidebar">
     <NavMenu />
 </div>
@@ -9,7 +9,40 @@
         <a href="https://wellsb.com/csharp/" target="_blank" class="ml-md-auto">C# Tutorials</a>
     </div>
 
+    @if (Installable)
+    {
+        <div class="row justify-content-center">
+            <div class="install-prompt col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+                <span>Install app?</span>
+                <button class="installButton btn btn-primary" @onclick="@(() => InstallClicked())">Yes</button>
+                <button class="cancelButton btn btn-danger" @onclick="@(()=>Installable=false)">No</button>
+            </div>
+        </div>
+    }
+
     <div class="content px-4">
         @Body
     </div>
 </div>
+
+@code
+{
+    static bool Installable = false;
+    static Action ml;
+    protected override void OnInitialized()
+    {
+        ml = () => InvokeAsync(StateHasChanged);
+    }
+    [JSInvokable]
+    public static Task PWAInstallable()
+    {
+        Installable = true;
+        ml.Invoke();
+        return Task.CompletedTask;
+    }
+    ValueTask InstallClicked()
+    {
+        Installable = false;
+        return JSRuntime.InvokeVoidAsync("BlazorPWA.installPWA");
+    }
+}

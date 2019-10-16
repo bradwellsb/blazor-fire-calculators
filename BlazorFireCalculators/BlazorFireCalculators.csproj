@@ -8,10 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BlazorPWA.MSBuild" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview9.19465.2" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview9.19465.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.0.0-preview9.19465.2" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview9.19465.2" PrivateAssets="all" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <ServiceWorkerCacheVersion>1</ServiceWorkerCacheVersion>
+    <ServiceWorkerForce>true</ServiceWorkerForce>
+    <ServiceWorkerRegisterInstallableType>installable-blazor</ServiceWorkerRegisterInstallableType>
+    
+    <ManifestShortName>FIRE Calculator</ManifestShortName>
+    <ManifestLongName>Blazor FIRE Calculator</ManifestLongName>
+  </PropertyGroup>
+  
 </Project>
