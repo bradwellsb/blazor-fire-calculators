@@ -21,6 +21,7 @@
   <PropertyGroup>
     <ServiceWorkerCacheVersion>2</ServiceWorkerCacheVersion>
     <ServiceWorkerForce>true</ServiceWorkerForce>
+    
     <ServiceWorkerRegisterInstallableType>installable-blazor</ServiceWorkerRegisterInstallableType>
     
     <ManifestShortName>FIRE Calculator</ManifestShortName>

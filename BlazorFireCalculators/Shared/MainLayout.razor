@@ -28,16 +28,16 @@
 @code
 {
     static bool Installable = false;
-    static Action ml;
+    static Action OnInstallable;
     protected override void OnInitialized()
     {
-        ml = () => InvokeAsync(StateHasChanged);
+        OnInstallable = () => InvokeAsync(StateHasChanged);
     }
     [JSInvokable]
     public static Task PWAInstallable()
     {
         Installable = true;
-        ml.Invoke();
+        OnInstallable.Invoke();
         return Task.CompletedTask;
     }
     ValueTask InstallClicked()
