@@ -1,6 +1,7 @@
 ﻿@page "/fireage"
 @using System.Globalization
 @using BlazorFireCalculators.Data
+@inject IJSRuntime JSRuntime
 @inherits FireAgeCalculation
 
 <h2>FIRE Age Calculator</h2>
@@ -83,8 +84,8 @@
     </div>
 
     <div class="form-group row">
-        <div class="col-sm-8"></div>
-        <div class="col-sm-4 text-right">
+        <div class="col-12 text-right">
+            <button @onclick="GoToResults" class="btn btn-primary">Calculate</button>
             <button @onclick="ResetAll" class="btn btn-secondary">Reset</button>
         </div>
     </div>
@@ -125,7 +126,7 @@
         //setProperty delegate will assign double value to the property passed from <input>
         try
         {
-            setProperty(Math.Round(Double.Parse(e.Value.ToString()),2));
+            setProperty(Math.Round(Double.Parse(e.Value.ToString()), 2));
         }
         catch (Exception ex)
         {
@@ -156,8 +157,8 @@
                 break;
             case (Format.Percent):
                 //Used for formatting percentages
-                    //Not really necessary anymore since we're adding % to inputgroup with bootstrap
-                    //setString(String.Format("{0:N}%", propValue));
+                //Not really necessary anymore since we're adding % to inputgroup with bootstrap
+                //setString(String.Format("{0:N}%", propValue));
                 setString(String.Format("{0:N2}", propValue));
                 break;
             case (Format.None):
@@ -183,11 +184,21 @@
     //Update the bound strings.  This will display the results
     private void SetStrings()
     {
-       if (!double.IsNaN(Data.FireAge) && !double.IsInfinity(Data.FireAge))
-       {
-           Data.FireAgeString = String.Format("{0:0.##}", Data.FireAge);
-           Data.FireBalanceString = String.Format("{0:N2}", Data.FireBalance);
-       }
+        if (!double.IsNaN(Data.FireAge) && !double.IsInfinity(Data.FireAge))
+        {
+            Data.FireAgeString = String.Format("{0:0.##}", Data.FireAge);
+            Data.FireBalanceString = String.Format("{0:N2}", Data.FireBalance);
+        }
+    }
+
+    //This handler just scrolls page to bottom, which should put results in view
+    //   Blazor does not yet support hashed routes (#results)
+    //Calculate button actually doesn't calculate, because calculations are done oninput
+    //   Kind of a fake button to make UI intuitive
+    private async void GoToResults()
+    {
+        //Using JS Interop
+        await JSRuntime.InvokeVoidAsync("ScrollToBottom");
     }
 
     private void ResetAll()

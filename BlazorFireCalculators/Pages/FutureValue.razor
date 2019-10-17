@@ -1,6 +1,7 @@
 ﻿@page "/futurevalue"
 @using System.Globalization
 @using BlazorFireCalculators.Data
+@inject  IJSRuntime JSRuntime
 @inherits FVCalculation
 
 <h2>Future Value Calculator</h2>
@@ -56,8 +57,8 @@
     </div>
 
     <div class="form-group row">
-        <div class="col-sm-8"></div>
-        <div class="col-sm-4 text-right">
+        <div class="col-12 text-right">
+            <button @onclick="GoToResults" class="btn btn-primary">Calculate</button>
             <button @onclick="ResetAll" class="btn btn-secondary">Reset</button>
         </div>
     </div>
@@ -153,8 +154,8 @@
                 break;
             case (Format.Percent):
                 //Used for formatting percentages
-                    //Not really necessary anymore since we're adding % to inputgroup with bootstrap
-                    //setString(String.Format("{0:N}%", propValue));
+                //Not really necessary anymore since we're adding % to inputgroup with bootstrap
+                //setString(String.Format("{0:N}%", propValue));
                 setString(String.Format("{0:N2}", propValue));
                 break;
             case (Format.None):
@@ -186,6 +187,15 @@
             Data.TotalContributionsString = String.Format("{0:N2}", Data.TotalContributions);
             Data.InterestEarningsString = String.Format("{0:N2}", Data.InterestEarnings);
         }
+    }
+
+    //This handler just scrolls page to bottom.  No way to scroll to div
+    //Calculate button actually doesn't calculate, because calculations are done oninput
+    //Kind of a fake button to make UI intuitive
+    private async void GoToResults()
+    {
+        //Using JS Interop because Blazor does not yet support hashed routes (#results)
+        await JSRuntime.InvokeVoidAsync("ScrollToBottom");
     }
 
     private void ResetAll()

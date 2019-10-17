@@ -27,6 +27,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 
+**/wwwroot/_redirects
+
 # Publish dist folder (for Netlify consumption)
 publish/*
 !publish/BlazorFireCalculators/

@@ -18,8 +18,18 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview9.19465.2" PrivateAssets="all" />
   </ItemGroup>
 
+  <Target Name="PWAExclude" BeforeTargets="CreatePWA">
+    <PropertyGroup>
+      <ServiceWorkerPreCacheExcludeFiles>
+        $(OutputPath)dist\_redirects;
+        $(WWWRoot)_redirects;
+      </ServiceWorkerPreCacheExcludeFiles>
+    </PropertyGroup>
+    <Message Importance="high" Text="Removing: $(ServiceWorkerPreCacheExcludeFiles)" />
+  </Target>
+  
   <PropertyGroup>
-    <ServiceWorkerCacheVersion>2</ServiceWorkerCacheVersion>
+    <ServiceWorkerCacheVersion>3</ServiceWorkerCacheVersion>
     <ServiceWorkerForce>true</ServiceWorkerForce>
     
     <ServiceWorkerRegisterInstallableType>installable-blazor</ServiceWorkerRegisterInstallableType>

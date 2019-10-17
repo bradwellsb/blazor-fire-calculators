@@ -5,7 +5,7 @@ const swInstallEvent = 'install';
 const swInstalledEvent = 'installed';
 const swActivateEvent = 'activate';
 const staticCachePrefix = 'blazor-cache-v';
-const staticCacheName = 'blazor-cache-v2';
+const staticCacheName = 'blazor-cache-v3';
 const requiredFiles = [
 "/_framework/blazor.boot.json",
 "/_framework/blazor.server.js",
@@ -57,6 +57,7 @@ const requiredFiles = [
 "/icon-fire192.png",
 "/icon-fire512.png",
 "/index.html",
+"/ScrollInterop.js",
 "/ServiceWorkerRegister.js",
 "/manifest.json"
 ];
