@@ -16,7 +16,7 @@
                     <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
                 <!--Update when bind:format supports currency formats -->
-                <input id="initialvalue" class="form-control input-lg" @bind-value="Data.InitialValueString" @oninput="@(e => OnInput(e, x => Data.InitialValue = x))"
+                <input id="initialvalue" class="form-control input-lg" inputmode="decimal" @bind-value="Data.InitialValueString" @oninput="@(e => OnInput(e, x => Data.InitialValue = x))"
                        @onfocusin="@(e => OnFocusIn(Data.InitialValue, Data.InitialValueString, y => Data.InitialValueString = y))"
                        @onfocusout="@(e => OnFocusOut(Format.Currency, Data.InitialValue, y => Data.InitialValueString = y))" />
             </div>
@@ -29,7 +29,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">@(NumberFormatInfo.CurrentInfo.CurrencySymbol)</span>
                 </div>
-                <input id="monthlycontribution" class="form-control input-lg" @bind="Data.MonthlyContributionString" @oninput="@(e => OnInput(e, x => Data.MonthlyContribution = x))"
+                <input id="monthlycontribution" class="form-control input-lg" inputmode="decimal" @bind="Data.MonthlyContributionString" @oninput="@(e => OnInput(e, x => Data.MonthlyContribution = x))"
                        @onfocusin="@(e => OnFocusIn(Data.MonthlyContribution, Data.MonthlyContributionString, y => Data.MonthlyContributionString = y))"
                        @onfocusout="@(e => OnFocusOut(Format.Currency, Data.MonthlyContribution, y => Data.MonthlyContributionString = y))" />
             </div>
@@ -38,7 +38,7 @@
     <div class="form-group row">
         <label for="numyears" class="col-sm-8 col-form-label">Number of Years:</label>
         <div class="col-sm-4">
-            <input id="numyears" class="form-control input-lg" @bind="Data.NumYearsString" @oninput="@(e => OnInput(e, x => Data.NumYears = x))"
+            <input id="numyears" class="form-control input-lg" inputmode="decimal" @bind="Data.NumYearsString" @oninput="@(e => OnInput(e, x => Data.NumYears = x))"
                    @onfocusout="@(e => OnFocusOut(Format.None, Data.NumYears, y => Data.NumYearsString = y))" />
         </div>
     </div>
@@ -46,7 +46,7 @@
         <label for="annualreturn" class="col-sm-8 col-form-label">Annual Return:</label>
         <div class="col-sm-4">
             <div class="input-group">
-                <input id="annualreturn" class="form-control input-lg" @bind="Data.AnnualInterestString" @oninput="@(e => OnInput(e, x => Data.AnnualInterest = x))"
+                <input id="annualreturn" class="form-control input-lg" inputmode="decimal" @bind="Data.AnnualInterestString" @oninput="@(e => OnInput(e, x => Data.AnnualInterest = x))"
                        @onfocusin="@(e => OnFocusIn(Data.AnnualInterest, Data.AnnualInterestString, y => Data.AnnualInterestString = y))"
                        @onfocusout="@(e => OnFocusOut(Format.Percent, Data.AnnualInterest, y => Data.AnnualInterestString = y))" />
                 <div class="input-group-append">

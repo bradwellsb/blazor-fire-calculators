@@ -29,7 +29,7 @@
   </Target>
   
   <PropertyGroup>
-    <ServiceWorkerCacheVersion>4</ServiceWorkerCacheVersion>
+    <ServiceWorkerCacheVersion>5</ServiceWorkerCacheVersion>
     <ServiceWorkerForce>true</ServiceWorkerForce>
     
     <ServiceWorkerRegisterInstallableType>installable-blazor</ServiceWorkerRegisterInstallableType>
