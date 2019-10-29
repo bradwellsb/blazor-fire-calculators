@@ -187,3 +187,46 @@ app {
         display: block;
     }
 }
+
+.loading-section {
+    text-align: center;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+    .loading-section h2 {
+        color: #000;
+    }
+
+.loader-dot {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #298083;
+    display: inline-block;
+    -webkit-animation: grow 2.1s infinite ease-in-out both;
+    animation: grow 2.1s infinite ease-in-out both;
+}
+
+    .loader-dot.dot1 {
+        -webkit-animation-delay: -0.96s;
+        animation-delay: -0.96s;
+    }
+
+    .loader-dot.dot2 {
+        -webkit-animation-delay: -0.48s;
+        animation-delay: -0.48s;
+    }
+
+@-webkit-keyframes grow {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0)
+    }
+
+    40% {
+        -webkit-transform: scale(1.0)
+    }
+}

@@ -5,7 +5,7 @@ const swInstallEvent = 'install';
 const swInstalledEvent = 'installed';
 const swActivateEvent = 'activate';
 const staticCachePrefix = 'blazor-cache-v';
-const staticCacheName = 'blazor-cache-v5';
+const staticCacheName = 'blazor-cache-v6';
 const requiredFiles = [
 "/_framework/blazor.boot.json",
 "/_framework/blazor.server.js",
@@ -54,6 +54,7 @@ const requiredFiles = [
 "/css/open-iconic/README.md",
 "/css/site.css",
 "/favicon.ico",
+"/fire-social-min.png",
 "/icon-fire192.png",
 "/icon-fire512.png",
 "/index.html",
